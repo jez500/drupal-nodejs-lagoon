@@ -1,0 +1,10 @@
+{
+    "uid": "node",
+    "append": true,
+    "watch": true,
+    "script": "app.js",
+    "sourceDir": "/usr/src/app/node_modules/drupal-node.js",
+    "logFile": "/var/log/forever.log",
+    "outFile": "/var/log/out.log",
+    "errFile": "/var/log/error.log"
+}

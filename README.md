@@ -9,7 +9,7 @@ Inspiration from [wodby/drupal-node](https://github.com/wodby/drupal-node) with 
 | Variable                             | Default Value     | Description |
 | ------------------------------------ | ----------------- | ----------- |
 | `NODE_BACKEND_BASE_PATH`             |                   |             |
-| `NODE_BACKEND_HOST`                  | `php`             |             |
+| `NODE_BACKEND_HOST`                  | `nginx`           |             |
 | `NODE_BACKEND_PORT`                  | `80`              |             |
 | `NODE_BACKEND_SCHEME`                | `http`            |             |
 | `NODE_BASE_AUTH_PATH`                |                   |             |
@@ -27,6 +27,33 @@ Inspiration from [wodby/drupal-node](https://github.com/wodby/drupal-node) with 
 | `NODE_SSL_CERT_PATH`                 |                   |             |
 | `NODE_SSL_KEY_PATH`                  |                   |             |
 
-## Complete Drupal stack
+## Scripts
+
+This uses [forever](https://www.npmjs.com/package/forever) to keep the service
+running, manually starting via forever can be done by executing `/bin/drupal-node-start.sh`.
+
+## Development environment
 
 Tested with [Lando](https://lando.dev/) dev environment
+
+Example of additions to `.lando.yml`
+
+```
+services:
+  node:
+    type: node:custom
+    app_mount: false
+    command: /bin/drupal-node-start.sh
+    overrides:
+      image: doghouseau/drupal-nodejs-lagoon:latest
+      environment:
+        NODE_SERVICE_KEY: __MY_KEY__
+        NODE_BASE_AUTH_PATH: /nodejs/
+        NODE_BACKEND_HOST: website.lndo.site
+        NODE_BACKEND_PORT: 80
+        NODE_DEBUG: 'true'
+
+proxy:
+  node:
+    - sockets.website.lndo.site:8080
+```
